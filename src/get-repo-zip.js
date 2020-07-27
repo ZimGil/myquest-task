@@ -1,6 +1,10 @@
 import fs from 'fs';
+import util from 'util';
+import childProcess from 'child_process'
 import nodeGit from 'nodegit';
 import archiver from 'archiver';
+
+const exec = util.promisify(childProcess.exec);
 
 const  {
   BITBUCKET_USERNAME,
@@ -20,6 +24,7 @@ const target = 'target.zip';
 
 export default function getRepoZip(branch) {
   return cloneRepo(branch)
+    .then(npmInstall)
     .then(zipRepo)
     .then(deleteRepo)
     .then(() => target)
@@ -32,6 +37,10 @@ function cloneRepo(branch) {
     fetchOpts
   };
   return nodeGit.Clone(BITBUCKET_REPO_PATH_ORIGIN, BITBUCKET_REPO_PATH_LOCAL, cloneOptions);
+}
+
+function npmInstall() {
+  return exec(`npm install --prefix ${BITBUCKET_REPO_PATH_LOCAL}`)
 }
 
 function zipRepo() {
