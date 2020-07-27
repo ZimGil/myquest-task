@@ -9,8 +9,7 @@ const exec = util.promisify(childProcess.exec);
 const  {
   BITBUCKET_USERNAME,
   BITBUCKET_PASSWORD,
-  BITBUCKET_REPO_PATH_ORIGIN,
-  BITBUCKET_REPO_PATH_LOCAL,
+  BITBUCKET_REPO_PATH_ORIGIN
 } = process.env;
 
 const fetchOpts = {
@@ -20,14 +19,15 @@ const fetchOpts = {
   }
 };
 
-const target = 'target.zip';
+const localRepoPath = 'repo'
+const zippedRepoFilePath = `${localRepoPath}.zip`;
 
 export default function getRepoZip(branch) {
   return cloneRepo(branch)
     .then(npmInstall)
     .then(zipRepo)
     .then(deleteRepo)
-    .then(() => target)
+    .then(() => zippedRepoFilePath)
     .catch(console.error);
 }
 
@@ -36,17 +36,17 @@ function cloneRepo(branch) {
     checkoutBranch: branch,
     fetchOpts
   };
-  return nodeGit.Clone(BITBUCKET_REPO_PATH_ORIGIN, BITBUCKET_REPO_PATH_LOCAL, cloneOptions);
+  return nodeGit.Clone(BITBUCKET_REPO_PATH_ORIGIN, localRepoPath, cloneOptions);
 }
 
 function npmInstall() {
-  return exec(`npm install --prefix ${BITBUCKET_REPO_PATH_LOCAL}`)
+  return exec(`npm install --prefix ${localRepoPath}`)
 }
 
 function zipRepo() {
   return new Promise((res, rej) => {
 
-    const output = fs.createWriteStream(target);
+    const output = fs.createWriteStream(zippedRepoFilePath);
     const archive = archiver('zip');
 
     output.on('close', () => {
