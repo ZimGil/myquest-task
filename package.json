@@ -2,9 +2,10 @@
   "name": "myquest-task",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node -r dotenv/config dist/index.js",
+    "build": "babel src --out-dir dist --presets=@babel/preset-env --plugins=babel-plugin-add-module-exports",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -13,5 +14,11 @@
     "archiver": "^5.0.0",
     "dotenv": "^8.2.0",
     "nodegit": "^0.26.5"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
+    "babel-plugin-add-module-exports": "^1.0.2"
   }
 }

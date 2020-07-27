@@ -1,9 +1,6 @@
-const fs = require('fs');
-const nodeGit = require('nodegit');
-const dotenv = require('dotenv');
-const archiver = require('archiver');
-
-dotenv.config();
+import fs from 'fs';
+import nodeGit from 'nodegit';
+import archiver from 'archiver';
 
 const  {
   BITBUCKET_USERNAME,
@@ -25,15 +22,20 @@ const cloneOptions = {
   fetchOpts
 };
 
-nodeGit.Clone(BITBUCKET_REPO_PATH_ORIGIN, BITBUCKET_REPO_PATH_LOCAL, cloneOptions)
-  .then(zipRepo)
-  .then(deleteRepo)
-  .catch(console.error);
+const target = 'target.zip';
+
+export default function getRepoZip() {
+  return nodeGit.Clone(BITBUCKET_REPO_PATH_ORIGIN, BITBUCKET_REPO_PATH_LOCAL, cloneOptions)
+    .then(zipRepo)
+    .then(deleteRepo)
+    .then(() => target)
+    .catch(console.error);
+}
 
 function zipRepo() {
   return new Promise((res, rej) => {
 
-    const output = fs.createWriteStream('target.zip');
+    const output = fs.createWriteStream(target);
     const archive = archiver('zip');
 
     output.on('close', () => {
