@@ -3,10 +3,10 @@ import axios from 'axios';
 
 const {
   AZURE_USERNAME,
-  AZURE_PASSWORD
+  AZURE_PASSWORD,
+  AZURE_ZIPDEPLOY_PATH
 } = process.env;
 
-const foo = 'https://sangha-test-candidate-nodejs2020.scm.azurewebsites.net/api/zipdeploy';
 const requestConfig = {
   auth: {
     username: AZURE_USERNAME,
@@ -16,5 +16,5 @@ const requestConfig = {
 
 export default function(filePath) {
   return fs.readFile(filePath)
-    .then((fileBuffer) => axios.post(foo, fileBuffer, requestConfig));
+    .then((fileBuffer) => axios.post(AZURE_ZIPDEPLOY_PATH, fileBuffer, requestConfig));
 }
