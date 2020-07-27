@@ -19,7 +19,6 @@ const fetchOpts = {
 const target = 'target.zip';
 
 export default function getRepoZip(branch) {
-  console.log(branch)
   return cloneRepo(branch)
     .then(zipRepo)
     .then(deleteRepo)

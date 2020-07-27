@@ -1,5 +1,6 @@
 import readline from 'readline';
 import getRepoZip from './get-repo-zip';
+import postToAzure from './post-to-azure';
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -8,6 +9,7 @@ const rl = readline.createInterface({
 
 getBranchName()
   .then(getRepoZip)
+  .then(postToAzure)
   .then(() => rl.close())
   .catch(console.error);
 
