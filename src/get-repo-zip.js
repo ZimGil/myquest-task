@@ -28,7 +28,6 @@ export default function getRepoZip(branch) {
     .then(zipRepo)
     .then(deleteRepo)
     .then(() => zippedRepoFilePath)
-    .catch(console.error);
 }
 
 function cloneRepo(branch) {
