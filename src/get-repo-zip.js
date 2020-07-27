@@ -7,7 +7,6 @@ const  {
   BITBUCKET_PASSWORD,
   BITBUCKET_REPO_PATH_ORIGIN,
   BITBUCKET_REPO_PATH_LOCAL,
-  BITBUCKET_BRANCH_NAME
 } = process.env;
 
 const fetchOpts = {
@@ -17,19 +16,23 @@ const fetchOpts = {
   }
 };
 
-const cloneOptions = {
-  checkoutBranch: BITBUCKET_BRANCH_NAME,
-  fetchOpts
-};
-
 const target = 'target.zip';
 
-export default function getRepoZip() {
-  return nodeGit.Clone(BITBUCKET_REPO_PATH_ORIGIN, BITBUCKET_REPO_PATH_LOCAL, cloneOptions)
+export default function getRepoZip(branch) {
+  console.log(branch)
+  return cloneRepo(branch)
     .then(zipRepo)
     .then(deleteRepo)
     .then(() => target)
     .catch(console.error);
+}
+
+function cloneRepo(branch) {
+  const cloneOptions = {
+    checkoutBranch: branch,
+    fetchOpts
+  };
+  return nodeGit.Clone(BITBUCKET_REPO_PATH_ORIGIN, BITBUCKET_REPO_PATH_LOCAL, cloneOptions);
 }
 
 function zipRepo() {
