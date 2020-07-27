@@ -13,6 +13,7 @@ AZURE_USERNAME= // AZURE Username
 AZURE_PASSWORD= // AZURE Password
 AZURE_ZIPDEPLOY_PATH= // Path to AZURE ZipDeploy API
 ```
+>`.env` file supported
 
 ### Usage
 There are 2 way to run this application:
