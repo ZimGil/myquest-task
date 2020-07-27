@@ -10,8 +10,8 @@ const rl = readline.createInterface({
 getBranchName()
   .then(getRepoZip)
   .then(postToAzure)
-  .then(() => rl.close())
-  .catch(console.error);
+  .catch(console.error)
+  .finally(() => rl.close());
 
 function getBranchName() {
   let branch = process.argv[2];
