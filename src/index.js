@@ -8,7 +8,7 @@ const rl = readline.createInterface({
 
 getBranchName()
   .then(getRepoZip)
-  .then(rl.close)
+  .then(() => rl.close())
   .catch(console.error);
 
 function getBranchName() {
