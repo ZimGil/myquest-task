@@ -55,11 +55,11 @@ function zipRepo() {
     archive.on('error', (err) => err && rej());
 
     archive.pipe(output);
-    archive.directory(BITBUCKET_REPO_PATH_LOCAL, false);
+    archive.directory(localRepoPath, false);
     archive.finalize();
   })
 }
 
 function deleteRepo() {
-  fs.rmdir(BITBUCKET_REPO_PATH_LOCAL, {recursive: true}, (err) => err && console.error(err))
+  fs.rmdir(localRepoPath, {recursive: true}, (err) => err && console.error(err))
 }
